@@ -1,0 +1,31 @@
+---
+description: Feature-Sliced Design layers, imports, and slice boundaries
+alwaysApply: true
+---
+
+# FSD
+
+Layers live in `src/`. Next.js routes stay in the root `app/` and only re-export a slice public API.
+
+Order, top to bottom: `_app` → `_pages` → `widgets` → `features` → `entities` → `shared`.
+A file imports only from layers below it. `app/` may import any public API.
+
+Public API:
+
+```ts
+import { HomePage } from "@/_pages/home";
+import { routes } from "@/shared/config";
+```
+
+Internal path (blocked by ESLint):
+
+```ts
+import { HomePage } from "@/_pages/home/ui/home-page";
+```
+
+- One slice, one public `index.ts` with re-exports only. Page `metadata` may live in that index.
+- Segments: `ui`, `model`, `api`, `lib`, `config`. No `components`, `hooks`, `utils`, `types`, `store`.
+- Create `widgets`, `features`, or `entities` only when a second page needs the same behavior. Until then the code stays in the page slice.
+- Entities are singular (`coach`). Pages follow the route (`coaches`).
+- Cross-imports between slices are not allowed. `@x` only after an explicit review.
+- Full rules: `docs/architecture.md`.

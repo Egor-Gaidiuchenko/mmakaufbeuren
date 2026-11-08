@@ -1,0 +1,16 @@
+---
+description: TypeScript and React conventions for the club site
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Code
+
+- TypeScript strict. `any`, `@ts-ignore`, and non-null assertions need a one-line reason in the review, not in a silencer comment.
+- Server Components by default. `"use client"` goes on the leaf that uses state, events, or browser APIs.
+- Named exports. Default export only in Next.js route files (`page`, `layout`, `route`, `error`, `loading`, `not-found`).
+- Component file is `PascalCase.tsx`. Everything else is `kebab-case.ts`. Props type is `SomethingProps` next to the component.
+- Data loading lives in an `api` segment and returns typed data. UI does not call `fetch`.
+- Secrets stay on the server. Public env vars go through `shared/config`, never read as `process.env` inside UI.
+- One `h1` per page. Interactive controls have an accessible name. Layout is mobile-first.
+- Full rules: `docs/conventions.md`.
