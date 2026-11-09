@@ -71,7 +71,7 @@ export function PhotoCarousel({ photos }: PhotoCarouselProps) {
 
   return (
     <div
-      className="relative w-full touch-pan-y overflow-hidden h-auto min-[526px]:px-16 lg:h-auto lg:min-h-0 lg:flex-1 lg:px-0"
+      className="relative h-auto w-full touch-pan-y overflow-hidden min-[526px]:px-16 lg:h-full lg:min-h-0 lg:flex-1 lg:px-0"
       role="region"
       aria-roledescription="Karussell"
       aria-label="Fotos aus dem Training"
@@ -87,12 +87,18 @@ export function PhotoCarousel({ photos }: PhotoCarouselProps) {
       }}
     >
       <div
-        className="flex transition-transform duration-500 ease-out"
+        className="flex transition-transform duration-500 ease-out lg:h-full"
         style={{ transform: `translate3d(-${index * 100}%, 0, 0)` }}
       >
         {photos.map((item) => (
-          <div key={item.id} className="w-full shrink-0">
-            <img src={item.url} alt="" loading="eager" decoding="async" className="h-auto w-full" />
+          <div key={item.id} className="w-full shrink-0 lg:h-full">
+            <img
+              src={item.url}
+              alt=""
+              loading="eager"
+              decoding="async"
+              className="h-auto w-full lg:h-full lg:w-full lg:object-cover"
+            />
           </div>
         ))}
       </div>

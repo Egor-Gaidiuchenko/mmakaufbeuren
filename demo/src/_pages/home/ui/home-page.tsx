@@ -63,8 +63,8 @@ export function HomePage() {
                 <SignalLink href={routes.trial}>Probetraining anfragen</SignalLink>
               </div>
             </div>
-            <div className="flex w-full flex-col px-4 pb-6 min-[526px]:px-0 md:pb-8 lg:h-full lg:pb-16">
-              <Suspense fallback={<div className="h-[240px] w-full lg:h-auto lg:min-h-0 lg:flex-1" />}>
+            <div className="flex w-full flex-col px-4 pb-6 min-[526px]:px-0 md:pb-8 lg:h-[560px] lg:pb-16">
+              <Suspense fallback={<div className="h-[240px] w-full lg:h-full lg:min-h-0 lg:flex-1" />}>
                 <HomePhotos />
               </Suspense>
             </div>
