@@ -13,7 +13,6 @@ export function PhotoCarousel({ photos }: PhotoCarouselProps) {
   const [paused, setPaused] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const count = photos.length;
-  const photo = photos[index];
 
   useEffect(() => {
     if (paused || count < 2) {
@@ -27,7 +26,14 @@ export function PhotoCarousel({ photos }: PhotoCarouselProps) {
     return () => window.clearInterval(timer);
   }, [count, paused]);
 
-  if (!photo) {
+  useEffect(() => {
+    photos.forEach((photo) => {
+      const image = new window.Image();
+      image.src = photo.url;
+    });
+  }, [photos]);
+
+  if (count === 0) {
     return <p className="px-6 py-10 text-sm text-muted">Noch keine Fotos.</p>;
   }
 
@@ -80,12 +86,16 @@ export function PhotoCarousel({ photos }: PhotoCarouselProps) {
         setPaused(false);
       }}
     >
-      <img
-        key={photo.id}
-        src={photo.url}
-        alt=""
-        className="h-auto w-full lg:absolute lg:top-0 lg:left-1/2 lg:h-full lg:w-auto lg:max-w-none lg:-translate-x-1/2"
-      />
+      <div
+        className="flex transition-transform duration-500 ease-out"
+        style={{ transform: `translate3d(-${index * 100}%, 0, 0)` }}
+      >
+        {photos.map((item) => (
+          <div key={item.id} className="w-full shrink-0">
+            <img src={item.url} alt="" loading="eager" decoding="async" className="h-auto w-full" />
+          </div>
+        ))}
+      </div>
       {count > 1 ? (
         <>
           <button
