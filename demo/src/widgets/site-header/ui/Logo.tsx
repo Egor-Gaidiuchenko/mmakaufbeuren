@@ -9,10 +9,11 @@ type LogoProps = {
 
 export function Logo({ height = 104 }: LogoProps) {
   const width = Math.round((height * LOGO_WIDTH) / LOGO_HEIGHT);
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
     <Image
-      src="/brand/club-logo.png"
+      src={`${basePath}/brand/club-logo.png`}
       alt=""
       width={LOGO_WIDTH}
       height={LOGO_HEIGHT}
