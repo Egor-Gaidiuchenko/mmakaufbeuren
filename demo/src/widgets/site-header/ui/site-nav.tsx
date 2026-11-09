@@ -8,9 +8,9 @@ import { routes } from "@/shared/config";
 import { SignalLink } from "@/shared/ui";
 
 const navigation = [
-  { href: routes.schedule, label: "Trainingsplan" },
-  { href: routes.prices, label: "Preise" },
-  { href: routes.journal, label: "Journal" },
+  { href: routes.schedule, label: "Trainingsplan", match: [routes.schedule] },
+  { href: routes.prices, label: "Preise", match: [routes.prices] },
+  { href: routes.journal, label: "Journal", match: [routes.journal, routes.article] },
 ] as const;
 
 export function SiteNav() {
@@ -23,7 +23,7 @@ export function SiteNav() {
       <div className="hidden lg:flex lg:flex-1 lg:items-center lg:gap-[84px]">
         <nav aria-label="Hauptnavigation" className="flex items-center gap-[84px]">
           {navigation.map((item) => (
-            <NavLink key={item.href} href={item.href} current={pathname === item.href}>
+            <NavLink key={item.href} href={item.href} current={matchesPath(pathname, item.match)}>
               {item.label}
             </NavLink>
           ))}
@@ -51,7 +51,7 @@ export function SiteNav() {
           className="absolute inset-x-0 top-full z-20 flex flex-col gap-5 bg-ink px-6 py-6 lg:hidden"
         >
           {navigation.map((item) => (
-            <NavLink key={item.href} href={item.href} current={pathname === item.href}>
+            <NavLink key={item.href} href={item.href} current={matchesPath(pathname, item.match)}>
               {item.label}
             </NavLink>
           ))}
@@ -75,9 +75,17 @@ function NavLink({
     <Link
       href={href}
       aria-current={current ? "page" : undefined}
-      className={current ? "text-base text-signal" : "text-base"}
+      className={
+        current
+          ? "text-base text-signal"
+          : "text-base text-white transition-colors hover:text-signal focus-visible:text-signal"
+      }
     >
       {children}
     </Link>
   );
+}
+
+function matchesPath(pathname: string, prefixes: readonly string[]): boolean {
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
